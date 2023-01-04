@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:random_generator/randomizer_change_notifier.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:random_generator/randomizer_state_notifier.dart';
 import 'package:random_generator/range_selector_page.dart';
 
 void main() {
   runApp(const App());
 }
+
+final randomizerProvider =
+    ChangeNotifierProvider((ref) => RandomizerChangeNotifier());
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,8 +16,7 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => RandomizerChangeNotifier(),
+    return ProviderScope(
       child: MaterialApp(
         title: 'Randomizer',
         theme: ThemeData.dark(useMaterial3: true),
