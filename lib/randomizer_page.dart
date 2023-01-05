@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_generator/main.dart';
 
-
-
 class RandomizerPage extends ConsumerWidget {
   const RandomizerPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref ) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final randomizer = ref.watch(randomizerProvider);
 
     return Scaffold(
@@ -26,7 +24,7 @@ class RandomizerPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          ref.watch(randomizerProvider).generatedRandomNumber();
+          ref.watch(randomizerProvider.notifier).generatedRandomNumber();
         },
         label: const Text('Generate'),
         backgroundColor: Colors.black,

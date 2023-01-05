@@ -17,7 +17,7 @@ class RandomizerState with _$RandomizerState {
 }
 
 class RandomizerStateNotifier extends StateNotifier<RandomizerState> {
-  RandomizerStateNotifier() : super(RandomizerState());
+  RandomizerStateNotifier() : super(const RandomizerState());
 
   final _randomGenerator = Random();
 
@@ -33,20 +33,5 @@ class RandomizerStateNotifier extends StateNotifier<RandomizerState> {
 
   void setMax(int value) {
     state = state.copyWith(max: value);
-  }
-}
-
-class RandomizerChangeNotifier extends ChangeNotifier {
-  final _randomGenerator = Random();
-
-  int? _generatedNumber;
-  int? get generatedNumber => _generatedNumber;
-
-  int min = 0;
-  int max = 0;
-
-  void generatedRandomNumber() {
-    _generatedNumber = min + _randomGenerator.nextInt(max + 1 - min);
-    notifyListeners();
   }
 }
