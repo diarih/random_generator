@@ -28,10 +28,12 @@ class RandomizerStateNotifier extends StateNotifier<RandomizerState> {
   }
 
   void setMin(int value) {
+    print(value);
     state = state.copyWith(min: value);
   }
 
   void setMax(int value) {
+    print(value);
     state = state.copyWith(max: value);
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:random_generator/main.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-typedef IntValueSetter = void Function(int value);
+typedef IntValueSetter = void Function(int? value);
 
 class RangeSelectorForm extends ConsumerWidget {
   const RangeSelectorForm({
@@ -24,13 +24,13 @@ class RangeSelectorForm extends ConsumerWidget {
               RangeSelectorFormField(
                 labelText: 'Minimum',
                 intValueSetter: (value) =>
-                    ref.read(randomizerProvider.notifier).setMin(value),
+                    ref.read(randomizerProvider.notifier).setMin(value!),
               ),
               const SizedBox(height: 16),
               RangeSelectorFormField(
                 labelText: 'Minimum',
                 intValueSetter: (value) =>
-                    ref.read(randomizerProvider.notifier).setMax(value),
+                    ref.read(randomizerProvider.notifier).setMax(value!),
               ),
             ],
           ),
@@ -38,7 +38,7 @@ class RangeSelectorForm extends ConsumerWidget {
   }
 }
 
-class RangeSelectorFormField extends StatelessWidget {
+class RangeSelectorFormField extends ConsumerWidget {
   const RangeSelectorFormField(
       {Key? key, required this.labelText, required this.intValueSetter})
       : super(key: key);
@@ -47,7 +47,9 @@ class RangeSelectorFormField extends StatelessWidget {
   final IntValueSetter intValueSetter;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final randomizer = ref.watch(randomizerProvider);
+
     return TextFormField(
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
@@ -57,10 +59,17 @@ class RangeSelectorFormField extends StatelessWidget {
           const TextInputType.numberWithOptions(decimal: false, signed: true),
       validator: (value) {
         if (value == null || int.tryParse(value) == null) {
+          // debugPrint(value);
           return 'Please enter a number etc. 1, 2';
         } else {
           return null;
         }
+      },
+      onChanged: (newValue) => {
+        if (newValue == '')
+          {intValueSetter(0)}
+        else
+          {intValueSetter(int.parse(newValue))}
       },
       onSaved: (newValue) => intValueSetter(int.parse(newValue ?? '')),
     );
